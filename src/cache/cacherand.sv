@@ -1,0 +1,214 @@
+///////////////////////////////////////////
+// cacheLRU.sv
+//
+// Written: Rose Thompson ross1728@gmail.com
+// Created: 20 July 2021
+// Modified: 20 January 2023
+//
+// Purpose: Implements Pseudo LRU. Tested for Powers of 2.
+//
+// Documentation: RISC-V System on Chip Design Chapter 7 (Figures 7.8 and 7.15 to 7.18)
+//
+// A component of the CORE-V-WALLY configurable RISC-V project.
+// https://github.com/openhwgroup/cvw
+//
+// Copyright (C) 2021-23 Harvey Mudd College & Oklahoma State University
+//
+// SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+//
+// Licensed under the Solderpad Hardware License v 2.1 (the “License”); you may not use this file 
+// except in compliance with the License, or, at your option, the Apache License version 2.0. You 
+// may obtain a copy of the License at
+//
+// https://solderpad.org/licenses/SHL-2.1/
+//
+// Unless required by applicable law or agreed to in writing, any work distributed under the 
+// License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
+// either express or implied. See the License for the specific language governing permissions 
+// and limitations under the License.
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+module testbench();
+
+   logic        clk;
+   logic        reset;
+   logic        WIDTH;
+   logic        en;
+   logic [2:0]  ValidWay3;
+   logic [3:0]  ValidWay4;
+   logic [4:0]  ValidWay5;
+   logic [5:0]  ValidWay6;
+   logic [6:0]  ValidWay7;
+   logic [7:0]  ValidWay8;
+   logic [8:0]  ValidWay9;  
+   logic        FlushStage, LRUWriteEn, VictimWay3, VictimWay4, VictimWay5, VictimWay6, VictimWay7, VictimWay8, VictimWay9;     
+
+   // instantiate device to be tested
+   cacherand #(3, 9, 5, 128) dut3(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay3), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay3));
+   cacherand #(4, 9, 5, 128) dut4(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay4), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay4));
+   cacherand #(5, 9, 5, 128) dut5(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay5), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay5));
+   cacherand #(6, 9, 5, 128) dut6(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay6), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay6));
+   cacherand #(7, 9, 5, 128) dut7(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay7), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay7));
+   cacherand #(8, 9, 5, 128) dut8(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay8), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay8));
+   cacherand #(9, 9, 5, 128) dut9(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay9), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay9));
+
+   // initialize test
+   initial
+     begin
+	reset <= 1; # 22; reset <= 0; en <= 1; FlushStage <= 0; LRUWriteEn <= 1;
+     end
+    initial
+     begin
+      #22 ValidWay3 <= 3'b101; ValidWay4 <= 4'b1010; ValidWay5 <= 5'b10101; ValidWay6 <= 6'b101010; ValidWay7 <= 7'b1010101; ValidWay8 <= 8'b10101010; ValidWay9 <= 9'b101010101;
+     end
+   // generate clock to sequence tests
+   always
+     begin
+	clk <= 1; # 5; clk <= 0; # 5;
+     end
+endmodule
+
+module cacherand
+  #(parameter NUMWAYS = 4, SETLEN = 9, OFFSETLEN = 5, NUMLINES = 128) (
+  input  logic                clk, 
+  input  logic                reset,
+  input  logic                FlushStage,
+  input  logic                CacheEn,         // Enable the cache memory arrays.  Disable hold read data constant
+  input  logic [NUMWAYS-1:0]  HitWay,          // Which way is valid and matches PAdr's tag
+  input  logic [NUMWAYS-1:0]  ValidWay,        // Which ways for a particular set are valid, ignores tag
+  input  logic [SETLEN-1:0]   CacheSetData,    // Cache address, the output of the address select mux, NextAdr, PAdr, or FlushAdr
+  input  logic [SETLEN-1:0]   CacheSetTag,     // Cache address, the output of the address select mux, NextAdr, PAdr, or FlushAdr
+  input  logic [SETLEN-1:0]   PAdr,            // Physical address 
+  input  logic                LRUWriteEn,      // Update the LRU state
+  input  logic                SetValid,        // Set the dirty bit in the selected way and set
+  input  logic                ClearValid,      // Clear the dirty bit in the selected way and set
+  input  logic                InvalidateCache, // Clear all valid bits
+  output logic [NUMWAYS-1:0]  VictimWay        // LRU selects a victim to evict
+);
+
+  localparam                           LOGNUMWAYS = $clog2(NUMWAYS);
+  localparam                           LFSRWIDTH = LOGNUMWAYS + 2;
+
+  logic [NUMWAYS-2:0]                  LRUMemory [NUMLINES-1:0];
+  logic [NUMWAYS-2:0]                  CurrLRU;
+  logic [NUMWAYS-2:0]                  NextLRU;
+  logic [LOGNUMWAYS-1:0]               HitWayEncoded, Way;
+  logic [NUMWAYS-2:0]                  WayExpanded;
+  logic                                AllValid;
+  logic [NUMWAYS-1:0] FirstZero;
+  logic [LOGNUMWAYS-1:0] FirstZeroWay;
+  logic [LOGNUMWAYS-1:0] VictimWayEnc;
+
+  binencoder #(NUMWAYS) hitwayencoder(HitWay, HitWayEncoded);
+
+  assign AllValid = &ValidWay;
+
+  ///// Update replacement bits.
+  // coverage off
+  // Excluded from coverage b/c it is untestable without varying NUMWAYS.
+  function integer log2 (integer value);
+    int val;
+    val = value;
+    for (log2 = 0; val > 0; log2 = log2+1)
+      val = val >> 1;
+    return log2;
+  endfunction // log2
+  // coverage on
+
+  // On a miss we need to ignore HitWay and derive the new replacement bits with the VictimWay.
+  mux2 #(LFSRWIDTH) WayMuxEnc(HitWayEncoded, VictimWayEnc, SetValid, Way);
+
+  logic [LFSRWIDTH-1:0] load_val;
+  case(LFSRWIDTH)
+    3: assign load_val = 3'b101;
+    4: assign load_val = 4'b1010;
+    5: assign load_val = 5'b10101;
+    6: assign load_val = 6'b101010;
+    7: assign load_val = 7'b1010101;
+    8: assign load_val = 8'b10101010;
+    9: assign load_val = 9'b101010101;
+  endcase 
+  logic next;
+  logic LFSR_en;
+  assign LFSR_en = ~FlushStage & LRUWriteEn;
+  logic [LFSRWIDTH-1:0] CurrRandom;
+  flopenl #(LFSRWIDTH) lfsr(.clk(clk), .load(reset), .en(LFSR_en), .d({next, CurrRandom[LFSRWIDTH-1:1]}), .val(load_val), .q(CurrRandom)); 
+
+  case(LFSRWIDTH)
+    3: assign next = CurrRandom[2]^CurrRandom[0];
+    4: assign next = CurrRandom[3]^CurrRandom[0];
+    5: assign next = CurrRandom[4]^CurrRandom[3]^CurrRandom[2]^CurrRandom[0];
+    6: assign next = CurrRandom[5]^CurrRandom[4]^CurrRandom[2]^CurrRandom[1];
+    7: assign next = CurrRandom[6]^CurrRandom[5]^CurrRandom[3]^CurrRandom[0];
+    8: assign next = CurrRandom[7]^CurrRandom[5]^CurrRandom[2]^CurrRandom[1];
+    9: assign next = CurrRandom[8]^CurrRandom[6]^CurrRandom[5]^CurrRandom[4]^CurrRandom[3]^CurrRandom[2];
+  endcase 
+
+  priorityonehot #(NUMWAYS) FirstZeroEncoder(~ValidWay, FirstZero);
+  binencoder #(NUMWAYS) FirstZeroWayEncoder(FirstZero, FirstZeroWay);
+  mux2 #(LOGNUMWAYS) VictimMux(FirstZeroWay, CurrRandom[LOGNUMWAYS-1:0], AllValid, VictimWayEnc);
+  decoder #(LOGNUMWAYS) decoder (VictimWayEnc, VictimWay);
+
+endmodule
+
+module flopenl #(parameter WIDTH = 8, parameter type TYPE=logic [WIDTH-1:0]) (
+  input  logic clk, load, en,
+  input  TYPE d,
+  input  TYPE val,
+  output TYPE q);
+
+  always_ff @(posedge clk)
+    if (load)    q <= val;
+    else if (en) q <= d;
+endmodule
+
+module mux2 #(parameter WIDTH = 8)
+   (input  logic [WIDTH-1:0] d0, d1, 
+    input logic 	     s, 
+    output logic [WIDTH-1:0] y);
+
+   assign y = s ? d1 : d0; 
+endmodule
+
+module binencoder #(parameter N = 8) (
+  input  logic [N-1:0]         A,   // one-hot input
+  output logic [$clog2(N)-1:0] Y    // binary-encoded output
+);
+
+  integer                      index;
+
+  // behavioral description
+  // this is coded as a priority encoder
+  // consider redesigning to take advanteage of one-hot nature of input
+  always_comb  begin
+    Y = '0;
+    for(index = 0; index < N; index++) 
+      if(A[index] == 1'b1) Y = index[$clog2(N)-1:0];
+  end
+
+endmodule
+
+module decoder #(parameter BINARY_BITS = 3) (
+  input  logic [BINARY_BITS-1:0]      binary,
+  output logic [(2**BINARY_BITS)-1:0] onehot
+);
+
+  // *** Double check whether this synthesizes as expected
+  //     -- Ben @ May 4: only warning is that "signed to unsigned assignment occurs"; that said, I haven't checked the netlists
+  assign onehot = 1 << binary;
+
+endmodule
+
+module priorityonehot #(parameter N = 8) (
+  input  logic  [N-1:0] a,
+  output logic  [N-1:0] y
+);
+
+  genvar i;
+  
+  assign y[0] = a[0];
+  for (i=1; i<N; i++) begin:poh
+    assign y[i] = a[i] & ~|a[i-1:0];
+  end
+
+endmodule

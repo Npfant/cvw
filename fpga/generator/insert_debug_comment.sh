@@ -34,6 +34,6 @@ while read line; do
     signal=`echo "${StrArray[1]}" | awk '{$1=$1};1'`
     readarray -d " " -t SigArray <<< $signal
     sigType=`echo "${SigArray[0]}" | awk '{$1=$1};1'`
-    sigName=`echo "${SigArray[1]}" | awk '{$1=$1};1'`
+    sigName=`echo "${SigArray[1]}" | awk '{$1=$1};1' | tr -d "\015"`
     find $copiedDir -wholename $file | xargs sed -i "s/\(.*${sigType}.*${sigName}\)/(\* mark_debug = \"true\" \*)\1/g" 
 done < ../constraints/marked_debug.txt
