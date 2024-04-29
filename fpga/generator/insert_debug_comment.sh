@@ -2,9 +2,9 @@
 ###########################################
 ## insert_debug_comment.sh
 ##
-## Written: Ross Thompson ross1728@gmail.com
+## Written: Rose Thompson ross1728@gmail.com
 ## Created: 20 January 2023
-## Modified: 20 January 2023
+## Modified: 22 April 2024
 ##
 ## A component of the CORE-V-WALLY configurable RISC-V project.
 ## https://github.com/openhwgroup/cvw
@@ -35,5 +35,6 @@ while read line; do
     readarray -d " " -t SigArray <<< $signal
     sigType=`echo "${SigArray[0]}" | awk '{$1=$1};1'`
     sigName=`echo "${SigArray[1]}" | awk '{$1=$1};1' | tr -d "\015"`
-    find $copiedDir -wholename $file | xargs sed -i "s/\(.*${sigType}.*${sigName}\)/(\* mark_debug = \"true\" \*)\1/g" 
+    filepath=`find $copiedDir -wholename $file`
+    sed -i "s/\(.*${sigType}.*${sigName}.*\)/(\* mark_debug = \"true\" \*)\1/g" $filepath
 done < ../constraints/marked_debug.txt
