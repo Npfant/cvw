@@ -130,7 +130,7 @@ module cache import cvw::*; #(parameter cvw_t P,
       cacheLRU #(NUMWAYS, SETLEN, OFFSETLEN, NUMLINES) cacheLRU(
         .clk, .reset, .FlushStage, .CacheEn, .HitWay, .ValidWay, .VictimWay, .CacheSetData, .CacheSetTag, .LRUWriteEn,
         .SetValid, .ClearValid, .PAdr(PAdr[SETTOP-1:OFFSETLEN]), .InvalidateCache);
-    end else if(CACHE_REPL == 1) begin:rand
+    end else if(CACHE_REPL == 1) begin:Rand
       cacherand #(NUMWAYS, SETLEN, OFFSETLEN, NUMLINES) cacherand(
         .clk, .reset, .FlushStage, .CacheEn, .HitWay, .ValidWay, .VictimWay, .CacheSetData, .CacheSetTag, .LRUWriteEn,
         .SetValid, .ClearValid, .PAdr(PAdr[SETTOP-1:OFFSETLEN]), .InvalidateCache);

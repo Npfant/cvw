@@ -28,46 +28,6 @@
 // and limitations under the License.
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-module testbench();
-
-   logic        clk;
-   logic        reset;
-   logic        WIDTH;
-   logic        en;
-   logic [2:0]  ValidWay3;
-   logic [3:0]  ValidWay4;
-   logic [4:0]  ValidWay5;
-   logic [5:0]  ValidWay6;
-   logic [6:0]  ValidWay7;
-   logic [7:0]  ValidWay8;
-   logic [8:0]  ValidWay9;  
-   logic        FlushStage, LRUWriteEn, VictimWay3, VictimWay4, VictimWay5, VictimWay6, VictimWay7, VictimWay8, VictimWay9;     
-
-   // instantiate device to be tested
-   cacherand #(3, 9, 5, 128) dut3(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay3), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay3));
-   cacherand #(4, 9, 5, 128) dut4(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay4), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay4));
-   cacherand #(5, 9, 5, 128) dut5(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay5), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay5));
-   cacherand #(6, 9, 5, 128) dut6(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay6), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay6));
-   cacherand #(7, 9, 5, 128) dut7(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay7), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay7));
-   cacherand #(8, 9, 5, 128) dut8(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay8), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay8));
-   cacherand #(9, 9, 5, 128) dut9(.clk(clk), .reset(reset), .FlushStage(FlushStage), .ValidWay(ValidWay9), .LRUWriteEn(LRUWriteEn), .VictimWay(VictimWay9));
-
-   // initialize test
-   initial
-     begin
-	reset <= 1; # 22; reset <= 0; en <= 1; FlushStage <= 0; LRUWriteEn <= 1;
-     end
-    initial
-     begin
-      #22 ValidWay3 <= 3'b101; ValidWay4 <= 4'b1010; ValidWay5 <= 5'b10101; ValidWay6 <= 6'b101010; ValidWay7 <= 7'b1010101; ValidWay8 <= 8'b10101010; ValidWay9 <= 9'b101010101;
-     end
-   // generate clock to sequence tests
-   always
-     begin
-	clk <= 1; # 5; clk <= 0; # 5;
-     end
-endmodule
-
 module cacherand
   #(parameter NUMWAYS = 4, SETLEN = 9, OFFSETLEN = 5, NUMLINES = 128) (
   input  logic                clk, 
@@ -116,7 +76,7 @@ module cacherand
   // coverage on
 
   // On a miss we need to ignore HitWay and derive the new replacement bits with the VictimWay.
-  mux2 #(LFSRWIDTH) WayMuxEnc(HitWayEncoded, VictimWayEnc, SetValid, Way);
+  mux2 #(LOGNUMWAYS) WayMuxEnc(HitWayEncoded, VictimWayEnc, SetValid, Way);
 
   logic [LFSRWIDTH-1:0] load_val;
   case(LFSRWIDTH)
@@ -148,67 +108,5 @@ module cacherand
   binencoder #(NUMWAYS) FirstZeroWayEncoder(FirstZero, FirstZeroWay);
   mux2 #(LOGNUMWAYS) VictimMux(FirstZeroWay, CurrRandom[LOGNUMWAYS-1:0], AllValid, VictimWayEnc);
   decoder #(LOGNUMWAYS) decoder (VictimWayEnc, VictimWay);
-
-endmodule
-
-module flopenl #(parameter WIDTH = 8, parameter type TYPE=logic [WIDTH-1:0]) (
-  input  logic clk, load, en,
-  input  TYPE d,
-  input  TYPE val,
-  output TYPE q);
-
-  always_ff @(posedge clk)
-    if (load)    q <= val;
-    else if (en) q <= d;
-endmodule
-
-module mux2 #(parameter WIDTH = 8)
-   (input  logic [WIDTH-1:0] d0, d1, 
-    input logic 	     s, 
-    output logic [WIDTH-1:0] y);
-
-   assign y = s ? d1 : d0; 
-endmodule
-
-module binencoder #(parameter N = 8) (
-  input  logic [N-1:0]         A,   // one-hot input
-  output logic [$clog2(N)-1:0] Y    // binary-encoded output
-);
-
-  integer                      index;
-
-  // behavioral description
-  // this is coded as a priority encoder
-  // consider redesigning to take advanteage of one-hot nature of input
-  always_comb  begin
-    Y = '0;
-    for(index = 0; index < N; index++) 
-      if(A[index] == 1'b1) Y = index[$clog2(N)-1:0];
-  end
-
-endmodule
-
-module decoder #(parameter BINARY_BITS = 3) (
-  input  logic [BINARY_BITS-1:0]      binary,
-  output logic [(2**BINARY_BITS)-1:0] onehot
-);
-
-  // *** Double check whether this synthesizes as expected
-  //     -- Ben @ May 4: only warning is that "signed to unsigned assignment occurs"; that said, I haven't checked the netlists
-  assign onehot = 1 << binary;
-
-endmodule
-
-module priorityonehot #(parameter N = 8) (
-  input  logic  [N-1:0] a,
-  output logic  [N-1:0] y
-);
-
-  genvar i;
-  
-  assign y[0] = a[0];
-  for (i=1; i<N; i++) begin:poh
-    assign y[i] = a[i] & ~|a[i-1:0];
-  end
 
 endmodule
