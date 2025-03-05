@@ -894,6 +894,9 @@ end
     if (P.SPI_SUPPORTED) begin
       void'(rvviRefMemorySetVolatile(P.SPI_BASE, (P.SPI_BASE + P.SPI_RANGE)));
     end
+    if (P.VC_SUPPORTED) begin
+      void'(rvviRefMemorySetVolatile(P.VC_BASE, (P.VC_BASE + P.VC_RANGE)));
+    end
 
     if(P.XLEN==32) begin
       void'(rvviRefCsrSetVolatile(0, 32'hC80));   // CYCLEH
