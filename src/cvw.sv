@@ -140,6 +140,9 @@ typedef struct packed {
   logic         SPI_SUPPORTED;
   logic [63:0]  SPI_BASE;
   logic [63:0]  SPI_RANGE;
+  logic         VC_SUPPORTED;
+  logic [63:0]  VC_BASE;
+  logic [63:0]  VC_RANGE;
 
 // Test modes
 
