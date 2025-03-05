@@ -181,10 +181,10 @@ module uncore import cvw::*;  #(parameter cvw_t P)(
 
   if (P.VC_SUPPORTED == 1) begin : sdc
     video_controller_apb #(P) vc(
-      .PCLK, .PRESETn, .PSEL([6]), .PADDR(PADDR[7:0]), .PWDATA, .PSTRB, .PWRITE, .PENABLE,
+      .PCLK, .PRESETn, .PSEL(PSEL[6]), .PADDR(PADDR[7:0]), .PWDATA, .PSTRB, .PWRITE, .PENABLE,
       .PREADY(PREADY[6]), .PRDATA(PRDATA[6]), .ch0, .ch1, .ch2, .chc);
     end else begin : vc
-      assign ch0 = 1'b0; assign ch1 = 1'b0; assign ch2 1'b0; assign chc = 1'b0;
+      assign ch0 = 1'b0; assign ch1 = 1'b0; assign = ch2 1'b0; assign chc = 1'b0;
     end
   
 
