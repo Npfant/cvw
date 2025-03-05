@@ -48,6 +48,8 @@ module video_controller_apb import cvw::*; #(parameter cvw_t P) (
   logic [1:0] res_switch;
   logic [23:0] frame;
   logic [7:0] ENTRY;
+  logic      memwrite;
+   
 
   assign memwrite = PWRITE & PENABLE & PSEL;  // only write in access phase
   assign PREADY   = 1'b1; //CLINT shouldn't take more than one cycle?

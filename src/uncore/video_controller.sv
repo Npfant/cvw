@@ -16,10 +16,10 @@ module top(
 //localparam 640_addrLength = $clog2(640_totPix);
 
 //localparam 1280_length = 12;
-localparam 1280_WIDTH = 1280;
-localparam 1280_HEIGHT = 720;
-localparam 1280_totPix = 1280_WIDTH * 1280_HEIGHT;
-localparam 1280_addrLength = $clog2(1280_totPix);
+localparam WIDTH = 1280;
+localparam HEIGHT = 720;
+localparam totPix = WIDTH * HEIGHT;
+localparam addrLength = $clog2(totPix);
 
 logic clk_pix, clk_10x, clk_pix_locked;
 logic [11 : 0] sx, sy;
@@ -28,9 +28,12 @@ logic de, we;
 logic [23:0] buffIn;
 logic [addrLength-1:0] writeAddr, readAddr;
 
-//Clock generator 
-clk_div clk_gen(clk, rst, res, clk_pix, clk_10x, clk_pix_locked);
-
+//Clock generator
+if(res == 01) begin  
+   clk_div #(.MASTER(37.125)) clk_gen(clk, rst, clk_pix, clk_10x, clk_pix_locked);
+end else begin
+   clk_div #(.MASTER(12.5875)) clk_gen(clk, rst, clk_pix, clk_10x, clk_pix_locked);
+end
 //Generate screen position signals
 scrn_pos pos(clk_pix, rst, res, sx, sy, hsync, vsync, de);
 

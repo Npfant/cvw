@@ -72,7 +72,7 @@ module uncore import cvw::*;  #(parameter cvw_t P)(
 
   logic [12:0]                 HSELRegions;
   logic                        HSELDTIM, HSELIROM, HSELRam, HSELCLINT, HSELPLIC, HSELGPIO, HSELUART,HSELSDC, HSELSPI, HSELVC;
-  logic                        HSELDTIMD, HSELIROMD, HSELEXTD, HSELRamD, HSELCLINTD, HSELPLICD, HSELGPIOD, HSELUARTD, HSELSDCD, HSELSPID. HSELVCD;
+  logic                        HSELDTIMD, HSELIROMD, HSELEXTD, HSELRamD, HSELCLINTD, HSELPLICD, HSELGPIOD, HSELUARTD, HSELSDCD, HSELSPID, HSELVCD;
   logic                        HRESPRam,  HRESPSDC;
   logic                        HREADYRam, HRESPSDCD;
   logic [P.XLEN-1:0]           HREADBootRom; 
@@ -184,7 +184,7 @@ module uncore import cvw::*;  #(parameter cvw_t P)(
       .PCLK, .PRESETn, .PSEL(PSEL[6]), .PADDR(PADDR[7:0]), .PWDATA, .PSTRB, .PWRITE, .PENABLE,
       .PREADY(PREADY[6]), .PRDATA(PRDATA[6]), .ch0, .ch1, .ch2, .chc);
     end else begin : vc
-      assign ch0 = 1'b0; assign ch1 = 1'b0; assign = ch2 1'b0; assign chc = 1'b0;
+      assign ch0 = 1'b0; assign ch1 = 1'b0; assign ch2 = 1'b0; assign chc = 1'b0;
     end
   
 

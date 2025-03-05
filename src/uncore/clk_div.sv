@@ -1,7 +1,6 @@
-module clk_div (
+module clk_div #(MASTER = 12.5875) (
     input logic clk,
     input logic rst,
-    input logic [1:0] res,
     output logic clk_pix,
     output logic clk_pix_10x,
     output logic clk_pix_locked
@@ -28,7 +27,7 @@ module clk_div (
     logic locked;
 
     MMCME2_BASE #(
-        .CLKBOUT_MULT_F(if(res == 2'b01) ? 37.125 : 12.5875),
+        .CLKBOUT_MULT_F(MASTER),
         .CLKIN1_PERIOD(IN_PERIOD),
         .CLKOUT0_DIVIDE_F(DIV_10x),
         .CLKOUT1_DIVIDE_F(DIV_1X),
