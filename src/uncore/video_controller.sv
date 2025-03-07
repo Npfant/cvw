@@ -7,15 +7,8 @@ module video_controller(
     output logic ch1,
     output logic ch2,
     output logic chc
-);
-
-//localparam 640_length = 10;
-//localparam 640_WIDTH = 640;
-//localparam 640_HEIGHT = 480;
-//localparam 640_totPix = 640_WIDTH * 640_HEIGHT;
-//localparam 640_addrLength = $clog2(640_totPix);
-
-//localparam 1280_length = 12;
+)
+  
 localparam WIDTH = 1280;
 localparam HEIGHT = 720;
 localparam totPix = WIDTH * HEIGHT;

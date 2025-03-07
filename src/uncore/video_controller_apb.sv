@@ -53,8 +53,8 @@ module video_controller_apb import cvw::*; #(parameter cvw_t P) (
 
   assign memwrite = PWRITE & PENABLE & PSEL;  // only write in access phase
   assign PREADY   = 1'b1; //CLINT shouldn't take more than one cycle?
-  assign PRDATA   = 8'b0; //Video controller is an output only device, so read data is tied to zero.
-  assign ENTRY = {PADDR[7:5], 2'b00}; //What register is being accessed
+  assign PRDATA   = 0; //Video controller is an output only device, so read data is tied to zero.
+  assign ENTRY = {PADDR[7:2], 2'b00}; //What register is being accessed
 
   always_ff @(posedge PCLK) begin
     if(~PRESETn) begin
