@@ -22,22 +22,26 @@ localparam totPix = WIDTH * HEIGHT;
 localparam addrLength = $clog2(totPix);
 
 logic clk_pix, clk_10x, clk_pix_locked;
-logic [11 : 0] sx, sy;
+logic [11:0] sx, sy;
 logic hsync, vsync;
 logic de, we;
 logic [23:0] buffIn;
 logic [addrLength-1:0] writeAddr, readAddr;
+logic [18:0] master;
 
-
-if(res == 01) begin
-   //Clock generator  
-   clk_div #(.MASTER(37.125)) clk_gen(clk, rst, clk_pix, clk_10x, clk_pix_locked);
-   //Generate screen position signals
-   scrn_pos #(.res_swtch(1)) pos(clk_pix, rst, sx, sy, hsync, vsync, de);
-end else begin
-   clk_div #(.MASTER(12.5875)) clk_gen(clk, rst, clk_pix, clk_10x, clk_pix_locked);
-   scrn_pos #(.res_swtch(0)) pos(clk_pix, rst, sx, sy, hsync, vsync, de);
+always_ff @(posedge clk) begin
+    if(res == 1) begin
+        master = 371250;
+    end else begin
+        master = 125875;
+    end
 end
+
+//Clock generator
+clk_div clk_gen(clk, rst,  master, clk_pix, clk_10x, clk_pix_locked);
+
+//Generate screen position signals
+scrn_pos pos(clk_pix, rst, res, sx, sy, hsync, vsync, de);
 
 always_ff @(posedge clk_pix) begin
     //Check resolution to determine bounds
