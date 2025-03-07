@@ -1,4 +1,4 @@
-module top(
+module video_controller(
     input logic clk,
     input logic rst,
     input logic [1:0]  res,
