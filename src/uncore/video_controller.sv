@@ -28,14 +28,16 @@ logic de, we;
 logic [23:0] buffIn;
 logic [addrLength-1:0] writeAddr, readAddr;
 
-//Clock generator
-if(res == 01) begin  
+
+if(res == 01) begin
+   //Clock generator  
    clk_div #(.MASTER(37.125)) clk_gen(clk, rst, clk_pix, clk_10x, clk_pix_locked);
+   //Generate screen position signals
+   scrn_pos #(.res_swtch(1)) pos(clk_pix, rst, sx, sy, hsync, vsync, de);
 end else begin
    clk_div #(.MASTER(12.5875)) clk_gen(clk, rst, clk_pix, clk_10x, clk_pix_locked);
+   scrn_pos #(.res_swtch(0)) pos(clk_pix, rst, sx, sy, hsync, vsync, de);
 end
-//Generate screen position signals
-scrn_pos pos(clk_pix, rst, res, sx, sy, hsync, vsync, de);
 
 always_ff @(posedge clk_pix) begin
     //Check resolution to determine bounds
