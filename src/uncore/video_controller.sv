@@ -7,7 +7,7 @@ module video_controller(
     output logic ch1,
     output logic ch2,
     output logic chc
-)
+			);
   
 localparam WIDTH = 1280;
 localparam HEIGHT = 720;
@@ -15,7 +15,7 @@ localparam totPix = WIDTH * HEIGHT;
 localparam addrLength = $clog2(totPix);
 
 logic clk_pix, clk_10x, clk_pix_locked;
-logic [11:0] sx, sy;
+logic [19:0] sx, sy;
 logic hsync, vsync, hsync_buf1, vsync_buf1, hsync_buf2, vsync_buf2;
 logic de, we, de_buf1, de_buf2;
 logic [23:0] buffIn;

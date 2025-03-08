@@ -7,7 +7,7 @@ module serializer(
 );
 
     logic [9:0] temp;
-    logic [4:0] i;
+    logic [3:0] i;
 
     always_ff @(posedge x_clk) begin
         if (rst) begin
