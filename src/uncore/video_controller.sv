@@ -36,62 +36,14 @@ clk_div clk_gen(clk, rst,  master, clk_pix, clk_10x, clk_pix_locked);
 //Generate screen position signals
 scrn_pos pos(clk_pix, rst, res, sx, sy, hsync, vsync, de);
 
-//Generate screen position signals
-scrn_pos pos(clk_pix, rst, res, sx, sy, hsync, vsync, de);
-
 always_ff @(posedge clk_pix) begin
-    ///Check resolution to determine bounds
-    if(res == 2'b01) begin
-        //Check to see if in the active region
-        if(sx > 219) begin
-            if(sx < 1500) begin
-                if(sy > 19) begin
-                    if(sy < 740) begin
-                        we <= 1;
-                    end else begin
-                        we <= 0;
-                    end
-                end else begin
-                    we <= 0;
-                end
-            end else begin
-                we <= 0;
-            end
-        end else begin
-            we <= 0;
-        end
-        //Calculate write address within the frame buffer
-        writeAddr <= WIDTH * sy + sx;
-        if(sx == 0 && sy == 0) begin
-            readAddr <= 0;
-        end else if (we) begin
-            readAddr <= readAddr + 1;
-        end
-    end else begin
-        if(sx > 47) begin
-            if(sx < 688) begin
-                if(sy > 32) begin
-                    if(sy < 513) begin
-                        we <= 1;
-                    end else begin
-                        we <= 0;
-                    end
-                end else begin
-                    we <= 0;
-                end
-            end else begin
-                we <= 0;
-            end
-        end else begin
-            we <= 0;
-        end
-        //Calculate write address within the frame buffer
-        writeAddr <= WIDTH * sy + sx;
-        if(sx == 0 && sy == 0) begin
-            readAddr <= 0;
-        end else if (we) begin
-            readAddr <= readAddr + 1;
-        end
+    //Calculate write address within the frame buffer
+    if(sx == 0 && sy == 0) begin
+        writeAddr <= 0;
+        readAddr <= 0;
+    end else if (de) begin
+        writeAddr <= writeAddr + 1;
+        readAddr <= writeAddr;
     end
     de_buf1 <= de;
     de_buf2 <= de_buf1;
