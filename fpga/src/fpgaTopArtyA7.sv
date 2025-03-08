@@ -110,6 +110,10 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
   // GPIO Signals
   logic [31:0] 	   GPIOIN, GPIOOUT, GPIOEN;
 
+  //Video Controller Signals
+  logic clk_640, clk_1280;
+  output logic ch0, ch1, ch2, chc;
+
   // AHB to AXI Bridge Signals
   logic [3:0] 	   m_axi_awid;
   logic [7:0] 	   m_axi_awlen;
@@ -196,7 +200,7 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
   logic [511 : 0]   dbg_bus;
   logic             ui_clk_sync_rst;
   
-  logic 			   CLK208;
+  logic 			      CLK208;
   logic             clk167;
   logic             clk200;
 
@@ -229,6 +233,8 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
                      .clk_out2(clk200),
                      .clk_out3(CPUCLK),
                      .clk_out4(phy_ref_clk),
+                     .clk_out5(clk_640).
+                     .clk_out6(clk_1280),
                      .reset(1'b0),
                      .locked(mmcm1_locked),
                      .clk_in1(default_100mhz_clk));
@@ -258,7 +264,8 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
                     .HADDR, .HWDATA, .HWSTRB, .HWRITE, .HSIZE, .HBURST, .HPROT,
                     .HTRANS, .HMASTLOCK, .HREADY, .TIMECLK(1'b0), 
                     .GPIOIN, .GPIOOUT, .GPIOEN,
-                    .UARTSin, .UARTSout, .SDCIn, .SDCCmd, .SDCCS(SDCCSin), .SDCCLK, .ExternalStall(RVVIStall)); 
+                    .UARTSin, .UARTSout, .SDCIn, .SDCCmd, .SDCCS(SDCCSin), .SDCCLK,
+                    .clk_640, .clk_1280, .ch0, .ch1, .ch2, .chc, .ExternalStall(RVVIStall)); 
 
 
   // ahb lite to axi bridge

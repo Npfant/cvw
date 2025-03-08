@@ -62,6 +62,8 @@ module uncore import cvw::*;  #(parameter cvw_t P)(
   output logic                 SDCCmd,
   output logic [3:0]           SDCCS,
   output logic                 SDCCLK,
+  input logic                  clk_640,
+  input logic                  clk_1280,
   output logic                 ch0,
   output logic                 ch1,
   output logic                 ch2,
@@ -181,7 +183,7 @@ module uncore import cvw::*;  #(parameter cvw_t P)(
 
   if (P.VC_SUPPORTED == 1) begin : sdc
     video_controller_apb #(P) vc(
-      .PCLK, .PRESETn, .PSEL(PSEL[6]), .PADDR(PADDR[7:0]), .PWDATA, .PSTRB, .PWRITE, .PENABLE,
+      .PCLK, .clk_640, .clk_1280, .PRESETn, .PSEL(PSEL[6]), .PADDR(PADDR[7:0]), .PWDATA, .PSTRB, .PWRITE, .PENABLE,
       .PREADY(PREADY[6]), .PRDATA(PRDATA[6]), .ch0, .ch1, .ch2, .chc);
     end else begin : vc
       assign ch0 = 1'b0; assign ch1 = 1'b0; assign ch2 = 1'b0; assign chc = 1'b0;

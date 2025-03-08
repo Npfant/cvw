@@ -57,6 +57,8 @@ module wallywrapper import cvw::*;(
   logic        SPIOut;
   logic [3:0]  SPICS;
   logic        SPICLK;
+  logic        clk_640, clk_1280;
+  logic        ch0, ch1, ch2, chc;
 
   logic        SDCCmd;
   logic [3:0]  SDCCS;
@@ -80,6 +82,6 @@ module wallywrapper import cvw::*;(
   wallypipelinedsoc  #(P) dut(.clk, .reset_ext, .reset, .ExternalStall, .HRDATAEXT,.HREADYEXT, .HRESPEXT,.HSELEXT,
                         .HCLK, .HRESETn, .HADDR, .HWDATA, .HWSTRB, .HWRITE, .HSIZE, .HBURST, .HPROT,
                         .HTRANS, .HMASTLOCK, .HREADY, .TIMECLK(1'b0), .GPIOIN, .GPIOOUT, .GPIOEN,
-                        .UARTSin, .UARTSout, .SPIIn, .SPIOut, .SPICS, .SPICLK, .SDCIn, .SDCCmd, .SDCCS, .SDCCLK); 
+                        .UARTSin, .UARTSout, .SPIIn, .SPIOut, .SPICS, .SPICLK, .SDCIn, .SDCCmd, .SDCCS, .SDCCLK, .clk_640, .clk_1280, .ch0, .ch1, .ch2, .chc); 
 
 endmodule

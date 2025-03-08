@@ -1,5 +1,7 @@
 module video_controller(
     input logic clk,
+    input logic clk_640,
+    input logic clk_1280,
     input logic rst,
     input logic [1:0]  res,
     input logic [23:0] dataIn,
@@ -7,31 +9,24 @@ module video_controller(
     output logic ch1,
     output logic ch2,
     output logic chc
-			);
+			        );
   
 localparam WIDTH = 1280;
 localparam HEIGHT = 720;
 localparam totPix = WIDTH * HEIGHT;
 localparam addrLength = $clog2(totPix);
 
-logic clk_pix, clk_10x, clk_pix_locked;
+logic clk_pix, clk_5x;
 logic [19:0] sx, sy;
 logic hsync, vsync, hsync_buf1, vsync_buf1, hsync_buf2, vsync_buf2;
 logic de, we, de_buf1, de_buf2;
 logic [23:0] buffIn;
 logic [addrLength - 1:0] writeAddr, readAddr;
-logic [18:0] master;
 
-always_ff @(posedge clk) begin
-    if(res == 1) begin
-        master = 371250;
-    end else begin
-        master = 125875;
-    end
-end
+assign clk_5x = (res == 1) ? clk_1280 : clk_640;
 
 //Clock generator
-clk_div clk_gen(clk, rst,  master, clk_pix, clk_10x, clk_pix_locked);
+clk_div clk_gen(clk, rst, clk_pix);
 
 //Generate screen position signals
 scrn_pos pos(clk_pix, rst, res, sx, sy, hsync, vsync, de);
@@ -57,6 +52,6 @@ end
 vram framebuffer(clk_pix, clk_pix, de, de, writeAddr, readAddr, dataIn, buffIn);
 
 //DVI encoder and generator
-dvi_generator gen(clk_pix, clk_10x, rst, de_buf2, buffIn[7:0], {hsync_buf2, vsync_buf2}, buffIn[15:8], 2'b00, buffIn[23:16], 2'b00, ch0, ch1, ch2, chc);
+dvi_generator gen(clk_pix, clk_5x, rst, de_buf2, buffIn[7:0], {hsync_buf2, vsync_buf2}, buffIn[15:8], 2'b00, buffIn[23:16], 2'b00, ch0, ch1, ch2, chc);
 
 endmodule
