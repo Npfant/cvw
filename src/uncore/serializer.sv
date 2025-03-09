@@ -7,7 +7,7 @@ module serializer(
 );
 
     logic [9:0] temp;
-    logic [2:0] i;
+    logic [4:0] i;
     logic [2:0] j;
 
     always_ff @(posedge x_clk) begin
@@ -16,21 +16,26 @@ module serializer(
         end
         else begin
             case(i)
-                0: serialized <= temp[1];
-                1: serialized <= temp[3];
-                2: serialized <= temp[5];
-                3: serialized <= temp[7];
-                4: serialized <= temp[9];
+                0: serialized <= temp[0];
+                1: serialized <= temp[1];
+                2: serialized <= temp[2];
+                3: serialized <= temp[3];
+                4: serialized <= temp[4];
+                5: serialized <= temp[5];
+                6: serialized <= temp[6];
+                7: serialized <= temp[7];
+                8: serialized <= temp[8];
+                9: serialized <= temp[9];
                 default: serialized <= 0;
             endcase
             i <= i + 1;
-            if(i == 3'b101) begin
+            if(i == 5'b01001) begin
                 i <= 0;
             end
         end
     end
 
-    always_ff @(negedge x_clk) begin
+    /*always_ff @(negedge x_clk) begin
         if (rst) begin
             j <= -1;
         end
@@ -48,7 +53,7 @@ module serializer(
                 j <= 0;
             end
         end
-    end
+    end*/
 
     always_ff @(posedge clk) begin
         temp <= data;
