@@ -1431,6 +1431,7 @@ GPIO_SUPPORTED      0
 UART_SUPPORTED      0
 PLIC_SUPPORTED      0
 SPI_SUPPORTED       0
+VC_SUPPORTED        0
 
 # Breker tests require a different memory configuration
 # See tests/breker/README.md for details on the testsuite

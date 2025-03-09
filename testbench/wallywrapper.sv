@@ -32,7 +32,9 @@ module wallywrapper import cvw::*;(
   input logic clk,
   input logic reset_ext,
   input logic SPIIn,
-  input logic SDCIn
+  input logic SDCIn,
+  input logic clk_640,
+  input logic clk_1280
 );
  
 `include "parameter-defs.vh"
@@ -57,7 +59,6 @@ module wallywrapper import cvw::*;(
   logic        SPIOut;
   logic [3:0]  SPICS;
   logic        SPICLK;
-  logic        clk_640, clk_1280;
   logic        ch0, ch1, ch2, chc;
 
   logic        SDCCmd;
