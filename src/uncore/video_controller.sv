@@ -26,7 +26,7 @@ logic [addrLength - 1:0] writeAddr, readAddr;
 assign clk_5x = (res == 1) ? clk_1280 : clk_640;
 
 //Clock generator
-clk_div clk_gen(clk, rst, clk_pix);
+clk_div clk_gen(clk_5x, rst, clk_pix);
 
 //Generate screen position signals
 scrn_pos pos(clk_pix, rst, res, sx, sy, hsync, vsync, de);
