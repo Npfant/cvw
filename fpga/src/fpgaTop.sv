@@ -96,6 +96,10 @@ module fpgaTop
 
   logic [31:0]	   GPIOIN, GPIOOUT, GPIOEN;
 
+  //Video Controller Signals
+  logic clk_640, clk_1280;
+  output logic ch0_p, ch0_n, ch1_p, ch1_n, ch2_p, ch2_n, chc_p, chc_n;
+
   logic [3:0]	   m_axi_awid;
   logic [7:0]	   m_axi_awlen;
   logic [2:0]	   m_axi_awsize;
@@ -215,7 +219,7 @@ module fpgaTop
                     .HADDR, .HWDATA, .HWSTRB, .HWRITE, .HSIZE, .HBURST, .HPROT,
                     .HTRANS, .HMASTLOCK, .HREADY, .TIMECLK(1'b0), 
                     .GPIOIN, .GPIOOUT, .GPIOEN,
-                    .UARTSin, .UARTSout, .SDCIn, .SDCCmd, .SDCCS(SDCCSin), .SDCCLK, .ExternalStall(RVVIStall));
+                    .UARTSin, .UARTSout, .SDCIn, .SDCCmd, .SDCCS(SDCCSin), .SDCCLK, .clk_640, .clk_1280, .ch0_p, .ch0_n, .ch1_p, .ch1_n, .ch2_p, .ch2_n, .chc_p, .chc_n, .ExternalStall(RVVIStall));
 
 
   // ahb lite to axi bridge

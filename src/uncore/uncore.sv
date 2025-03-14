@@ -64,10 +64,14 @@ module uncore import cvw::*;  #(parameter cvw_t P)(
   output logic                 SDCCLK,
   input logic                  clk_640,
   input logic                  clk_1280,
-  output logic                 ch0,
-  output logic                 ch1,
-  output logic                 ch2,
-  output logic                 chc
+  output logic                ch0_p,
+  output logic                ch0_n,
+  output logic                ch1_p,
+  output logic                ch1_n,
+  output logic                ch2_p,
+  output logic                ch2_n,
+  output logic                chc_p,
+  output logic                chc_n
 );
   
   logic [P.XLEN-1:0]           HREADRam, HREADSDC;
@@ -184,9 +188,9 @@ module uncore import cvw::*;  #(parameter cvw_t P)(
   if (P.VC_SUPPORTED == 1) begin : sdc
     video_controller_apb #(P) vc(
       .PCLK, .clk_640, .clk_1280, .PRESETn, .PSEL(PSEL[6]), .PADDR(PADDR[7:0]), .PWDATA, .PSTRB, .PWRITE, .PENABLE,
-      .PREADY(PREADY[6]), .PRDATA(PRDATA[6]), .ch0, .ch1, .ch2, .chc);
+      .PREADY(PREADY[6]), .PRDATA(PRDATA[6]), .ch0_p, .ch0_n, .ch1_p, .ch1_n, .ch2_p, .ch2_n, .chc_p, .chc_n);
     end else begin : vc
-      assign ch0 = 1'b0; assign ch1 = 1'b0; assign ch2 = 1'b0; assign chc = 1'b0;
+      assign ch0_p = 1'b0; assign ch1_p = 1'b0; assign ch2_p = 1'b0; assign chc_p = 1'b0; assign ch0_n = 1'b0; assign ch1_n = 1'b0; assign ch2_n = 1'b0; assign chc_n = 1'b0;
     end
   
 

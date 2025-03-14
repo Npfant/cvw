@@ -36,10 +36,14 @@ module video_controller_apb import cvw::*; #(parameter cvw_t P) (
   input  logic                PENABLE,
   output logic                PREADY,
   output logic [P.XLEN-1:0]   PRDATA, 
-  output logic                ch0,
-  output logic                ch1,
-  output logic                ch2,
-  output logic                chc
+  output logic                ch0_p,
+  output logic                ch0_n,
+  output logic                ch1_p,
+  output logic                ch1_n,
+  output logic                ch2_p,
+  output logic                ch2_n,
+  output logic                chc_p,
+  output logic                chc_n
 );
 
   //Register map
@@ -72,6 +76,6 @@ module video_controller_apb import cvw::*; #(parameter cvw_t P) (
   end
 
   //Controller call
-  video_controller controller (PCLK, clk_640, clk_1280, PRESETn, res_switch, frame, ch0, ch1, ch2, chc);
+  video_controller controller (PCLK, clk_640, clk_1280, PRESETn, 2'b00, frame, ch0_p, ch0_n, ch1_p, ch1_n, ch2_p, ch2_n, chc_p, chc_n);
   
 endmodule

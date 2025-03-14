@@ -98,6 +98,24 @@ set_false_path -from [get_ports south_reset]
 set_property PACKAGE_PIN D9 [get_ports south_reset]
 set_property IOSTANDARD LVCMOS33 [get_ports south_reset]
 
+###### Video Controller Mapped to PMOD JB ######
+#set_property PACKAGE_PIN E15 [get_ports ch2_p] #Arranged right to left and top to bottom
+#set_property PACKAGE_PIN E16 [get_ports ch1_p]
+#set_property PACKAGE_PIN D15 [get_ports ch0_p]
+#set_property PACKAGE_PIN C15 [get_ports chc_p]
+#set_property PACKAGE_PIN J17 [get_ports ch2_n]
+#set_property PACKAGE_PIN J18 [get_ports ch1_n]
+#set_property PACKAGE_PIN K15 [get_ports ch0_n]
+#set_property PACKAGE_PIN J15 [get_ports chc_n]
+
+#set_property IOSTANDARD TMDS_33 [get_ports ch2_p]
+#set_property IOSTANDARD TMDS+33 [get_ports ch1_p]
+#set_property IOSTANDARD TMDS_33 [get_ports ch0_p]
+#set_property IOSTANDARD TMDS_33 [get_ports chc_p]
+#set_property IOSTANDARD TMDS_33 [get_ports ch2_n]
+#set_property IOSTANDARD TMDS_33 [get_ports ch1_n]
+#set_property IOSTANDARD TMDS_33 [get_ports ch0_n]
+#set_property IOSTANDARD TMDS_33 [get_ports chc_n]
 
 
 ##### SD Card I/O #####

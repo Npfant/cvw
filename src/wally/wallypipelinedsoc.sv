@@ -66,10 +66,14 @@ module wallypipelinedsoc import cvw::*; #(parameter cvw_t P)  (
   output logic                SDCCLK,           // SDC Clock       from   SPI Clock
   input logic                 clk_640,          // 640x480 Clk
   input logic                 clk_1280,         // 1280x720 Clk
-  output logic                ch0,              // DVI Blue signal
-  output logic                ch1,              // DVI Green signal
-  output logic                ch2,              // DVI Red signal
-  output logic                chc               // DVI clock signal
+  output logic                ch0_p,            // DVI Blue signal Positive Differential 
+  output logic                ch0_n,            // DVI Blue signal Negative Differential 
+  output logic                ch1_p,            // DVI Green signal Positive Differential
+  output logic                ch1_n,            // DVI Green signal Negative Differential
+  output logic                ch2_p,            // DVI Red signal Postive Differential
+  output logic                ch2_n,            // DVI Red signal Negative Differential
+  output logic                chc_p,            // DVI Clock signal Positive Differential
+  output logic                chc_n             // DVI Clock signal Negative Differential
 );
 
   // Uncore signals
@@ -95,10 +99,10 @@ module wallypipelinedsoc import cvw::*; #(parameter cvw_t P)  (
       .HADDR, .HWDATA, .HWSTRB, .HWRITE, .HSIZE, .HBURST, .HPROT, .HTRANS, .HMASTLOCK, .HRDATAEXT,
       .HREADYEXT, .HRESPEXT, .HRDATA, .HREADY, .HRESP, .HSELEXT,
       .MTimerInt, .MSwInt, .MExtInt, .SExtInt, .GPIOIN, .GPIOOUT, .GPIOEN, .UARTSin, 
-      .UARTSout, .MTIME_CLINT, .SPIIn, .SPIOut, .SPICS, .SPICLK, .SDCIn, .SDCCmd, .SDCCS, .SDCCLK, .clk_640, .clk_1280, .ch0, .ch1, .ch2, .chc);
+      .UARTSout, .MTIME_CLINT, .SPIIn, .SPIOut, .SPICS, .SPICLK, .SDCIn, .SDCCmd, .SDCCS, .SDCCLK, .clk_640, .clk_1280, .ch0_p, .ch0_n, .ch1_p, .ch1_n, .ch2_p, .ch2_n, .chc_p, .chc_n);
   end else begin
     assign {HRDATA, HREADY, HRESP, HSELEXT, MTimerInt, MSwInt, MExtInt, SExtInt,
-            MTIME_CLINT, GPIOOUT, GPIOEN, UARTSout, SPIOut, SPICS, SPICLK, SDCCmd, SDCCS, SDCCLK, ch0, ch1, ch2, chc} = '0; 
+            MTIME_CLINT, GPIOOUT, GPIOEN, UARTSout, SPIOut, SPICS, SPICLK, SDCCmd, SDCCS, SDCCLK, ch0_p, ch0_n, ch1_p, ch1_n, ch2_p, ch2_n, chc_p, chc_n} = '0; 
   end
 
   

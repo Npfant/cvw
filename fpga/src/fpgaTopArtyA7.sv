@@ -112,7 +112,7 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
 
   //Video Controller Signals
   logic clk_640, clk_1280;
-  output logic ch0, ch1, ch2, chc;
+  output logic ch0_p, ch0_n, ch1_p, ch1_n, ch2_p, ch2_n, chc_p, chc_n;
 
   // AHB to AXI Bridge Signals
   logic [3:0] 	   m_axi_awid;
@@ -265,7 +265,7 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
                     .HTRANS, .HMASTLOCK, .HREADY, .TIMECLK(1'b0), 
                     .GPIOIN, .GPIOOUT, .GPIOEN,
                     .UARTSin, .UARTSout, .SDCIn, .SDCCmd, .SDCCS(SDCCSin), .SDCCLK,
-                    .clk_640, .clk_1280, .ch0, .ch1, .ch2, .chc, .ExternalStall(RVVIStall)); 
+                    .clk_640, .clk_1280, .ch0_p, .ch0_n, .ch1_p, .ch1_n, .ch2_p, .ch2_n, .chc_p, .chc_n, .ExternalStall(RVVIStall)); 
 
 
   // ahb lite to axi bridge
