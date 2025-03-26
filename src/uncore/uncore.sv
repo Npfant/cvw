@@ -185,7 +185,7 @@ module uncore import cvw::*;  #(parameter cvw_t P)(
     assign SDCCmd = '0; assign SDCCS = 4'b0; assign SDCIntr = 1'b0; assign SDCCLK = 1'b0;
   end
 
-  if (P.VC_SUPPORTED == 1) begin : sdc
+  if (P.VC_SUPPORTED == 1) begin : vc
     video_controller_apb #(P) vc(
       .PCLK, .clk_640, .clk_1280, .PRESETn, .PSEL(PSEL[6]), .PADDR(PADDR[7:0]), .PWDATA, .PSTRB, .PWRITE, .PENABLE,
       .PREADY(PREADY[6]), .PRDATA(PRDATA[6]), .ch0_p, .ch0_n, .ch1_p, .ch1_n, .ch2_p, .ch2_n, .chc_p, .chc_n);
