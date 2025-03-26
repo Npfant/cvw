@@ -109,7 +109,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports south_reset]
 #set_property PACKAGE_PIN J15 [get_ports chc_n]
 
 #set_property IOSTANDARD TMDS_33 [get_ports ch2_p]
-#set_property IOSTANDARD TMDS+33 [get_ports ch1_p]
+#set_property IOSTANDARD TMDS_33 [get_ports ch1_p]
 #set_property IOSTANDARD TMDS_33 [get_ports ch0_p]
 #set_property IOSTANDARD TMDS_33 [get_ports chc_p]
 #set_property IOSTANDARD TMDS_33 [get_ports ch2_n]
