@@ -55,9 +55,9 @@ end
 localparam data = 24'h00B4FF;
 
 //Framebuffer
-vram framebuffer(clk_pix, clk_pix, de, de, writeAddr, readAddr, data, buffIn);
+//vram framebuffer(clk_pix, clk_pix, de, de, writeAddr, readAddr, data, buffIn);
 
 //DVI encoder and generator
-dvi_generator gen(clk_pix, clk_5x, rst, de_buf2, buffIn[7:0], {hsync_buf2, vsync_buf2}, buffIn[15:8], 2'b00, buffIn[23:16], 2'b00, ch0_p, ch0_n, ch1_p, ch1_n, ch2_p, ch2_n, chc_p, chc_n);
+dvi_generator gen(clk_pix, clk_5x, rst, de, data[7:0], {hsync, vsync}, data[15:8], 2'b00, data[23:16], 2'b00, ch0_p, ch0_n, ch1_p, ch1_n, ch2_p, ch2_n, chc_p, chc_n);
 
 endmodule

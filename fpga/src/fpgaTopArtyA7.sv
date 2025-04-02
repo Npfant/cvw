@@ -113,6 +113,7 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
 
   //Video Controller Signals
   logic clk_640, clk_1280;
+  
 
   // AHB to AXI Bridge Signals
   logic [3:0] 	   m_axi_awid;
@@ -233,7 +234,7 @@ module fpgaTop #(parameter logic RVVI_SYNTH_SUPPORTED = 0)
                      .clk_out2(clk200),
                      .clk_out3(CPUCLK),
                      .clk_out4(phy_ref_clk),
-                     .clk_out5(clk_640).
+                     .clk_out5(clk_640),
                      .clk_out6(clk_1280),
                      .reset(1'b0),
                      .locked(mmcm1_locked),

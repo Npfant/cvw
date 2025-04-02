@@ -1,0 +1,22 @@
+wally/wallypipelinedcore.sv: logic             PCM
+wally/wallypipelinedcore.sv: logic    TrapM
+wally/wallypipelinedcore.sv: logic                InstrValidM
+wally/wallypipelinedcore.sv: logic                 InstrM
+lsu/lsu.sv: logic        IEUAdrM
+lsu/lsu.sv: logic       MemRWM
+mmu/hptw.sv: logic	   SATP_REGW
+uncore/video_controller.sv : logic clk_pix
+uncore/video_controller.sv : logic clk_5x
+uncore/video_controller.sv : logic sy
+uncore/video_controller.sv : logic sx
+uncore/video_controller.sv : logic hsync
+uncore/video_controller.sv : logic vsync
+uncore/video_controller.sv : logic de
+uncore/video_controller.sv : logic ch0_n
+uncore/video_controller.sv : logic ch0_p
+uncore/video_controller.sv : logic ch1_n
+uncore/video_controller.sv : logic ch1_p
+uncore/video_controller.sv : logic ch2_n
+uncore/video_controller.sv : logic ch2_p
+uncore/video_controller.sv : logic chc_n
+uncore/video_controller.sv : logic chc_p
