@@ -76,6 +76,6 @@ module video_controller_apb import cvw::*; #(parameter cvw_t P) (
   end
 
   //Controller call
-  video_controller controller (PCLK, clk_640, clk_1280, PRESETn, 2'b00, frame, ch0_p, ch0_n, ch1_p, ch1_n, ch2_p, ch2_n, chc_p, chc_n);
+  video_controller controller (PCLK, clk_640, clk_1280, ~PRESETn, 2'b00, frame, ch0_p, ch0_n, ch1_p, ch1_n, ch2_p, ch2_n, chc_p, chc_n);
   
 endmodule

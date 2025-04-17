@@ -1,35 +1,3 @@
-# For Licence details look at https://gitlab.com/incoresemi/riscv-compliance/riscv_ctg/-/blob/master/LICENSE.incore
-
-fmin_b1:
-    config: 
-      - check ISA:=regex(.*I.*F.*)
-    mnemonics: 
-      fmin.s: 0
-    rs1: 
-      <<: *all_fregs
-    rs2:
-      <<: *all_fregs
-    rd: 
-      <<: *all_fregs
-    op_comb: 
-      <<: *rfmt_op_comb
-    val_comb:
-      abstract_comb:
-        'ibm_b1(flen,32, "fmin.s", 2)': 0
-        
-fmin_b19:
-    config: 
-      - check ISA:=regex(.*I.*F.*)
-    mnemonics: 
-      fmin.s: 0
-    rs1: 
-      <<: *all_fregs
-    rs2:
-      <<: *all_fregs
-    rd: 
-      <<: *all_fregs
-    op_comb: 
-      <<: *rfmt_op_comb
-    val_comb:
-      abstract_comb:
-        'ibm_b19(flen,32, "fmin.s", 2)': 0
+XÙAIVÔ6µ¨"zÝxµ”þÂ¥°«~CÕó½´¾µ&Y{.Í%f8Ô¥FpûwÎBL¼Yv1¿|§C7(9ÿBÀKDÐž€öq‘·Qw»_\~µØešËlÔAøh¬™h»Ž&[¬v7¥p/å…–]l”ÏÂEx‚ðŠç†7Œ 5dr±áç71«|ê©úUÚÈ©ïo>ýÔ>ÓCfÛön Ô\”Ú?.+™·ð†ºIMŸ!Þ÷\ƒdhäMwO{5ÆøÆb–‚ð=#VùhmŒÿ)”©$<ô¥ÛêëØîYVÝClS£¨ÑÕøéxBÛ•Ã	ˆæÀ7ŒCulÌJ0|Ñs±è˜à—Ê§]·š$$J•„Ëtôø»Vúpàõ~³GÃ8úÓ%KæŠ#eO|&y¹¤(ò9›‚G=›Œ'´‡ÚÞøÑ„‡É
+=@|xòlc¶{¯ôôµý	•­ãq#¬·íO¹›KÄÿ	}öRa“¸É¤Akk£Nv<y³ì—™ûo_Ä#ÔÄûó™õù¡'Gñˆ:£í®§×Qˆºj–´Am©?{éç§_ÿÊð8å<»·5CŽa_,–îxØ ‹æWÏ‰Dø”öÁ¶{Û—$Ðß
+ÑL4Â;¯½L´WÐCÀV°ü[Yár©ò¯´Ó"‰n./@5ÁÌ2©<C`Ì?®T­:PgžÝã¤9ÜˆO¯7ÊúŒTc»çºG¨øl|î~v>ÐÉÈ}ØYndÂ­D'UQ(û w”y–îrêK(Vun_a5úú|HîŸÀEnFÖ¦$lWŠ°–êø‰šª—-O%¨žÕ)XF’^nŠZˆ­MiüH!DEkÐ‘2Jç 	P) Ðóƒå›;ƒÅ´¡=#«6B	-o¶¦P>š´Õè‘„Ïû

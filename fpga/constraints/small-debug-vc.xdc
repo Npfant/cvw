@@ -84,44 +84,59 @@ set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe12]
 connect_debug_port u_ila_0/probe12 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/de}]]
 
 create_debug_port u_ila_0 probe
-set_property port_width 1 [get_debug_ports u_ila_0/probe13]
+set_property port_width 10 [get_debug_ports u_ila_0/probe13]
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe13]
-connect_debug_port u_ila_0/probe13 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch0_n}]]
+connect_debug_port u_ila_0/probe13 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch0[0]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch0[1]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch0[2]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch0[3]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch0[4]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch0[5]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch0[6]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch0[7]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch0[8]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch0[9]} ]]
 
 create_debug_port u_ila_0 probe
-set_property port_width 1 [get_debug_ports u_ila_0/probe14]
+set_property port_width 10 [get_debug_ports u_ila_0/probe14]
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe14]
-connect_debug_port u_ila_0/probe14 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch0_p}]]
+connect_debug_port u_ila_0/probe14 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch1[0]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch1[1]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch1[2]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch1[3]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch1[4]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch1[5]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch1[6]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch1[7]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch1[8]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch1[9]} ]]
 
 create_debug_port u_ila_0 probe
-set_property port_width 1 [get_debug_ports u_ila_0/probe15]
+set_property port_width 10 [get_debug_ports u_ila_0/probe15]
 set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe15]
-connect_debug_port u_ila_0/probe15 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch1_n}]]
+connect_debug_port u_ila_0/probe15 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch2[0]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch2[1]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch2[2]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch2[3]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch2[4]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch2[5]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch2[6]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch2[7]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch2[8]} {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/gen/tmds_ch2[9]} ]]
 
-create_debug_port u_ila_0 probe
-set_property port_width 1 [get_debug_ports u_ila_0/probe16]
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe16]
-connect_debug_port u_ila_0/probe16 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch1_p}]]
+#create_debug_port u_ila_0 probe
+#set_property port_width 1 [get_debug_ports u_ila_0/probe13]
+#set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe13]
+#connect_debug_port u_ila_0/probe13 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch0_n}]]
 
-create_debug_port u_ila_0 probe
-set_property port_width 1 [get_debug_ports u_ila_0/probe17]
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe17]
-connect_debug_port u_ila_0/probe17 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch2_n}]]
+#create_debug_port u_ila_0 probe
+#set_property port_width 1 [get_debug_ports u_ila_0/probe14]
+#set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe14]
+#connect_debug_port u_ila_0/probe14 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch0_p}]]
 
-create_debug_port u_ila_0 probe
-set_property port_width 1 [get_debug_ports u_ila_0/probe18]
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe18]
-connect_debug_port u_ila_0/probe18 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch2_p}]]
+#create_debug_port u_ila_0 probe
+#set_property port_width 1 [get_debug_ports u_ila_0/probe15]
+#set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe15]
+#connect_debug_port u_ila_0/probe15 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch1_n}]]
 
-create_debug_port u_ila_0 probe
-set_property port_width 1 [get_debug_ports u_ila_0/probe19]
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe19]
-connect_debug_port u_ila_0/probe19 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/chc_n}]]
+#create_debug_port u_ila_0 probe
+#set_property port_width 1 [get_debug_ports u_ila_0/probe16]
+#set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe16]
+#connect_debug_port u_ila_0/probe16 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch1_p}]]
 
-create_debug_port u_ila_0 probe
-set_property port_width 1 [get_debug_ports u_ila_0/probe20]
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe20]
-connect_debug_port u_ila_0/probe20 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/chc_p}]]
+#create_debug_port u_ila_0 probe
+#set_property port_width 1 [get_debug_ports u_ila_0/probe17]
+#set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe17]
+#connect_debug_port u_ila_0/probe17 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch2_n}]]
+
+#create_debug_port u_ila_0 probe
+#set_property port_width 1 [get_debug_ports u_ila_0/probe18]
+#set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe18]
+#connect_debug_port u_ila_0/probe18 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/ch2_p}]]
+
+#create_debug_port u_ila_0 probe
+#set_property port_width 1 [get_debug_ports u_ila_0/probe19]
+#set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe19]
+#connect_debug_port u_ila_0/probe19 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/chc_n}]]
+
+#create_debug_port u_ila_0 probe
+#set_property port_width 1 [get_debug_ports u_ila_0/probe20]
+#set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe20]
+#connect_debug_port u_ila_0/probe20 [get_nets [list {wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/chc_p}]]
 
 # the debug hub has issues with the clocks from the mmcm so lets give up an connect to the 100Mhz input clock.
 #connect_debug_port dbg_hub/clk [get_nets default_100mhz_clk]

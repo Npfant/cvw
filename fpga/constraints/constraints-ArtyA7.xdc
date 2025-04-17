@@ -5,6 +5,7 @@
 
 #create_generated_clock -name CLKDiv64_Gen -source [get_pins wallypipelinedsoc/uncore.uncore/sdc.SDC/sd_top/slow_clk_divider/clkMux/I0] -multiply_by 1 -divide_by 1 [get_pins wallypipelinedsoc/uncore.uncore/sdc.SDC/sd_top/slow_clk_divider/clkMux/O]
 create_generated_clock -name SPISDCClock -source [get_pins mmcm/clk_out3] -multiply_by 1 -divide_by 1 [get_pins wallypipelinedsoc/uncoregen.uncore/sdc.sdc/SPICLK]
+create_generated_clock -name clk_pix -source [get_pins wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/clk_gen/clk] -multiply_by 1 -divide_by 10 [get_pins wallypipelinedsoc/uncoregen.uncore/vc.vc/controller/clk_gen/clk_pix]
 
 ##### clock #####
 set_property PACKAGE_PIN E3 [get_ports default_100mhz_clk]
@@ -108,14 +109,14 @@ set_property PACKAGE_PIN J18 [get_ports ch1_n]
 set_property PACKAGE_PIN K15 [get_ports ch0_n]
 set_property PACKAGE_PIN J15 [get_ports chc_n]
 
-set_property IOSTANDARD LVCMOS33 [get_ports ch2_p]
-set_property IOSTANDARD LVCMOS33 [get_ports ch1_p]
-set_property IOSTANDARD LVCMOS33 [get_ports ch0_p]
-set_property IOSTANDARD LVCMOS33 [get_ports chc_p]
-set_property IOSTANDARD LVCMOS33 [get_ports ch2_n]
-set_property IOSTANDARD LVCMOS33 [get_ports ch1_n]
-set_property IOSTANDARD LVCMOS33 [get_ports ch0_n]
-set_property IOSTANDARD LVCMOS33 [get_ports chc_n]
+set_property IOSTANDARD TMDS_33 [get_ports ch2_p]
+set_property IOSTANDARD TMDS_33 [get_ports ch1_p]
+set_property IOSTANDARD TMDS_33 [get_ports ch0_p]
+set_property IOSTANDARD TMDS_33 [get_ports chc_p]
+set_property IOSTANDARD TMDS_33 [get_ports ch2_n]
+set_property IOSTANDARD TMDS_33 [get_ports ch1_n]
+set_property IOSTANDARD TMDS_33 [get_ports ch0_n]
+set_property IOSTANDARD TMDS_33 [get_ports chc_n]
 
 
 ##### SD Card I/O #####

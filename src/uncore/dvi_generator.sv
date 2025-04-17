@@ -33,9 +33,14 @@ serializer serialize_ch1 (clk, clk_5x, rst, tmds_ch1, ch1);
 serializer serialize_ch2 (clk, clk_5x, rst, tmds_ch2, ch2);
 serializer serialize_chc (clk, clk_5x, rst, 10'b0000011111, chc);
 
-differential differential_ch0 (clk_5x, rst, ch0, ch0_p, ch0_n);
-differential differential_ch1 (clk_5x, rst, ch1, ch1_p, ch1_n);
-differential differential_ch2 (clk_5x, rst, ch2, ch2_p, ch2_n);
-differential differential_chc (clk_5x, rst, chc, chc_p, chc_n);
+//differential differential_ch0 (clk_5x, rst, ch0, ch0_p, ch0_n);
+//differential differential_ch1 (clk_5x, rst, ch1, ch1_p, ch1_n);
+//differential differential_ch2 (clk_5x, rst, ch2, ch2_p, ch2_n);
+//differential differential_chc (clk_5x, rst, chc, chc_p, chc_n);
+
+differential differential_ch0 (ch0, ch0_p, ch0_n);
+differential differential_ch1 (ch1, ch1_p, ch1_n);
+differential differential_ch2 (ch2, ch2_p, ch2_n);
+differential differential_chc (chc, chc_p, chc_n);
 
 endmodule

@@ -28,6 +28,7 @@ logic [23:0] buffIn;
 logic [addrLength - 1:0] writeAddr, readAddr;
 
 assign clk_5x = (res == 1) ? clk_1280 : clk_640;
+//assign clk_pix = clk_1280;
 
 //Clock generator
 clk_div clk_gen(clk_5x, rst, clk_pix);
