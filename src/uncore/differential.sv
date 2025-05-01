@@ -1,29 +1,3 @@
-//module differential(
-//    input logic clk,
-//    input logic rst,
-//    input logic channel,
-//    output logic channelp,
-//    output logic channeln
-//);
-
-//always_ff @(posedge clk) begin
-//    if(rst) begin
-//        channelp <= 0;
-//        channeln <= 0;
-//    end else begin
-//        channelp <= channel;
-//        channeln <= ~channel;
-//    end
-//end
-
-//endmodule
-
-// Project F Library - XC7 TMDS Signal Output
-// (C)2021 Will Green, Open source hardware released under the MIT License
-// Learn more at https://projectf.iox   
-
-// OBUFDS is documented in Xilinx UG471
-
 module differential (
     input       logic I,     // TMDS signal
     output      logic O,    // positive differential signal pin
